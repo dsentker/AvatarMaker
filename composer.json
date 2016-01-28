@@ -24,6 +24,5 @@
         "psr-4": {
             "Shift\\AvatarMaker\\": "src/Shift/AvatarMaker"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }
