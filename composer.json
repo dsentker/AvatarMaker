@@ -1,0 +1,28 @@
+{
+    "name": "shift/avatarmaker",
+    "description": "Creates an avatar image based on given name",
+    "keywords": ["image", "avatar", "thumbnail"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Sentker",
+            "email": "tracid2008@gmail.com",
+            "homepage": "http://shiftedwork.de/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-fileinfo": "*",
+        "intervention/image": "*"
+    },
+    "suggest": {
+        "ext-gd": "to use GD library based image processing.",
+        "ext-imagick": "to use Imagick based image processing."
+    },
+    "autoload": {
+        "psr-4": {
+            "Shift\\AvatarMaker\\": "src/Shift/AvatarMaker"
+        }
+    },
+    "minimum-stability": "stable"
+}
