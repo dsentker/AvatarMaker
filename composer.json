@@ -4,6 +4,7 @@
     "homepage": "http://shiftedwork.de/avatarmaker/",
     "keywords": ["image", "avatar", "thumbnail"],
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Daniel Sentker",
