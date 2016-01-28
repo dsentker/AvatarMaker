@@ -109,10 +109,6 @@ class AvatarMaker
 
         return $initals;
 
-        /*if(count($words) < $this->charLength) {
-            return substr($words[0], 0, $this->charLength);
-        }*/
-
 
     }
 
@@ -142,8 +138,7 @@ class AvatarMaker
         $textX = ($this->size / 2) - ($this->size * .01); // Workaround to fix non-centered text
 
         $image->text($initals, $textX, $this->size / 2, function (\Intervention\Image\AbstractFont $font) use ($fontSize, $fontColor) {
-            //$font->file('segoeui.ttf');
-            $font->file('arial.ttf');
+            $font->file('arial.ttf'); /* @todo let the developer choose font */
             $font->size($fontSize);
             $font->color($fontColor);
             $font->align('center');
