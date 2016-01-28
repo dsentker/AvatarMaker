@@ -1,6 +1,8 @@
 <?php
 namespace Shift\AvatarMaker;
 
+use Colors\RandomColor;
+use Intervention\Image\ImageManager;
 
 class AvatarMaker
 {
@@ -49,8 +51,13 @@ class AvatarMaker
      *
      * @param \Intervention\Image\ImageManager $manager
      */
-    public function __construct(\Intervention\Image\ImageManager $manager)
+    public function __construct(ImageManager $manager)
     {
+
+        if(!class_exists('Colors\RandomColor')) {
+            throw new \RuntimeException('RandomColor class is required!');
+        }
+
         $this->imageManager = $manager;
     }
 
