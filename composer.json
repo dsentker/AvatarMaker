@@ -1,6 +1,7 @@
 {
     "name": "shift/avatarmaker",
     "description": "Creates an avatar image based on given name",
+    "homepage": "http://shiftedwork.de/avatarmaker/",
     "keywords": ["image", "avatar", "thumbnail"],
     "license": "MIT",
     "authors": [
