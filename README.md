@@ -15,7 +15,10 @@ $avatar->setBackgroundLuminosity('bright');
 $avatar->setSize(64);
 $avatar->setHues(['red', 'orange']);
 
-$name = 'John Doe';
-$img = $avatar->makeAvatar($name)->toBase64();
-printf('<h2>%s</h2><img alt="Avatar" src="%s"/><hr />', $name, $img);
+// direct output
+printf('<img alt="Avatar" src="%s"/>', $avatar->makeAvatar('John Doe')->toBase64());
+
+// save to file
+$avatar->save('path/to/user.png');
+
 ```
