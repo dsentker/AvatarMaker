@@ -1,11 +1,10 @@
 {
     "name": "shiftedwork/avatarmaker",
     "type": "library",
-    "description": "Creates an avatar image based on given name.",
+    "description": "Creates an avatar image from a string.",
     "homepage": "http://shiftedwork.de/avatarmaker/",
     "keywords": ["image", "avatar", "thumbnail"],
     "license": "MIT",
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Daniel Sentker",
@@ -16,14 +15,8 @@
     "require": {
         "php": ">=5.4.0",
         "ext-fileinfo": "*",
-        "intervention/image": "*"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.0"
-    },
-    "suggest": {
-        "ext-gd": "to use GD library based image processing.",
-        "ext-imagick": "to use Imagick based image processing."
+        "intervention/image": "*",
+        "mistic100/randomcolor": "*"
     },
     "autoload": {
         "psr-4": {
