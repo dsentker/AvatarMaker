@@ -5,7 +5,7 @@ error_reporting(-1);
 
 // If you get "Could not find/open font" errors with the "gd" driver, try
 // setting this environment variable
-putenv('GDFONTPATH=.');
+#putenv('GDFONTPATH=.');
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
