@@ -15,13 +15,12 @@
     "require": {
         "php": ">=5.4.0",
         "ext-fileinfo": "*",
-        "intervention/image": "*",
-        "mistic100/randomcolor": "*"
+        "intervention/image": "~2.3",
+        "mistic100/randomcolor": "~1.0"
     },
     "autoload": {
         "psr-4": {
             "Shift\\AvatarMaker\\": "src/Shift/AvatarMaker"
         }
     }
-
 }
