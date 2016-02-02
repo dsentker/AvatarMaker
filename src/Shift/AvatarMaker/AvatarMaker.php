@@ -46,11 +46,6 @@ class AvatarMaker
     /**
      * @var int
      */
-    protected $textSize = 30;
-
-    /**
-     * @var int
-     */
     protected $charLength = 2;
 
     /**
@@ -313,19 +308,4 @@ class AvatarMaker
         $this->textColor = $textColor;
     }
 
-    /**
-     * @return int
-     */
-    public function getTextSize()
-    {
-        return $this->textSize;
-    }
-
-    /**
-     * @param int $textSize
-     */
-    public function setTextSize($textSize)
-    {
-        $this->textSize = $textSize;
-    }
 }
