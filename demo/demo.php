@@ -2,10 +2,11 @@
 header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 1);
 error_reporting(-1);
-//require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
-$manager = new \Intervention\Image\ImageManager(['driver' => 'gd']);
-$avatar = new \Shift\AvatarMaker\AvatarMaker($manager);
+
+$avatar = \Shift\AvatarMaker\Factory\AvatarFactory::createAvatarMaker('rectangle');
+
 $avatar->setBackgroundLuminosity('bright');
 $avatar->setSize(64);
 $avatar->setHues(['red', 'orange']);

@@ -3,13 +3,14 @@ namespace Shift\AvatarMaker;
 
 use Colors\RandomColor;
 use Intervention\Image\ImageManager;
+use Shift\AvatarMaker\Shape\ShapeInterface;
 
 class AvatarMaker
 {
     /**
-     * @var \Intervention\Image\ImageManager
+     * @var ShapeInterface
      */
-    protected $imageManager;
+    protected $shape;
 
     /**
      * @var null|\Intervention\Image\Image
@@ -49,16 +50,16 @@ class AvatarMaker
     /**
      * AvatarMaker constructor.
      *
-     * @param \Intervention\Image\ImageManager $manager
+     * @param ShapeInterface $shape
      */
-    public function __construct(ImageManager $manager)
+    public function __construct(ShapeInterface $shape)
     {
 
-        if(!class_exists('Colors\RandomColor')) {
+        if (!class_exists('Colors\RandomColor')) {
             throw new \RuntimeException('RandomColor class is required!');
         }
 
-        $this->imageManager = $manager;
+        $this->shape = $shape;
     }
 
     /**
@@ -125,14 +126,7 @@ class AvatarMaker
         $initals = $this->getInitials(mb_convert_encoding($name, "LATIN1", "UTF-8"));
         $backgroundColor = $this->getRandomColor();
 
-        // Rectangle
-        #$image = $this->imageManager->canvas($this->width, $this->height, $backgroundColor);
-
-        // Circle
-        $image = $this->imageManager->canvas($this->size, $this->size, [0, 0, 0, 0]);
-        $image->circle($this->size - 1, $this->size / 2, $this->size / 2, function ($draw) use ($backgroundColor) {
-            $draw->background($backgroundColor);
-        });
+        $image = $this->getShape()->getShapedImage($this->size, $backgroundColor);
 
 
         $textX = ($this->size / 2) - ($this->size * .01); // Workaround to fix non-centered text
@@ -166,8 +160,8 @@ class AvatarMaker
 
 
     /**
-     * @param      $path
-     * @param null $quality
+     * @param string $path
+     * @param null   $quality
      *
      * @return $this
      */
@@ -263,11 +257,11 @@ class AvatarMaker
     }
 
     /**
-     * @return \Intervention\Image\ImageManager
+     * @return ShapeInterface
      */
-    public function getImageManager()
+    public function getShape()
     {
-        return $this->imageManager;
+        return $this->shape;
     }
 
     /**
