@@ -81,18 +81,18 @@ class AvatarMaker
     protected function getInitials($string)
     {
 
-        $initals = '';
+        $initials = '';
 
         // thanks to http://php.net/manual/de/function.preg-split.php#92632
         $words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $string, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
         for ($i = 0; $i < $this->charLength; $i++) {
             if (!empty($words[$i])) {
-                $initals .= substr($words[$i], 0, 1);
+                $initials .= substr($words[$i], 0, 1);
             }
         }
 
-        $initialsLength = strlen($initals);
+        $initialsLength = strlen($initials);
 
         if ($initialsLength < $this->charLength) {
             $missingChars = $this->charLength - $initialsLength;
@@ -102,12 +102,12 @@ class AvatarMaker
                 if (empty($lastWordCharacters[$i])) {
                     break;
                 }
-                $initals .= $lastWordCharacters[$i];
+                $initials .= $lastWordCharacters[$i];
             }
 
         }
 
-        return $initals;
+        return $initials;
 
 
     }
@@ -122,7 +122,7 @@ class AvatarMaker
 
         $fontSize = $this->textSize;
         $fontColor = $this->textColor;
-        $initals = $this->getInitials(mb_convert_encoding($name, "LATIN1", "UTF-8"));
+        $initials = $this->getInitials(mb_convert_encoding($name, "LATIN1", "UTF-8"));
         $backgroundColor = $this->getRandomColor();
 
         // Rectangle
@@ -137,7 +137,7 @@ class AvatarMaker
 
         $textX = ($this->size / 2) - ($this->size * .01); // Workaround to fix non-centered text
 
-        $image->text($initals, $textX, $this->size / 2, function (\Intervention\Image\AbstractFont $font) use ($fontSize, $fontColor) {
+        $image->text($initials, $textX, $this->size / 2, function (\Intervention\Image\AbstractFont $font) use ($fontSize, $fontColor) {
             $font->file('arial.ttf'); /* @todo let the developer choose font */
             $font->size($fontSize);
             $font->color($fontColor);
