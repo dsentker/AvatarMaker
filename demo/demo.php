@@ -3,13 +3,13 @@ header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 1);
 error_reporting(-1);
 
+require_once __DIR__ . '/../vendor/autoload.php';
+//require_once '../temp/test-includes.php';
 $avatar = \Shift\AvatarMaker\Factory\AvatarFactory::createAvatarMaker('rectangle');
 
 // If you get "Could not find/open font" errors with the "gd" driver, try
 // setting this environment variable
 #putenv('GDFONTPATH=.');
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 $avatar->setBackgroundLuminosity('bright');
 $avatar->setSize(64);
@@ -24,12 +24,14 @@ $avatar->setHues(['red', 'orange']);
         body {
             background-color: #eee;
             font-family: sans-serif;
+            margin: 0;
+            padding: 0;
         }
         div {
             float: left;
-            padding: 10px;
-            margin: 5px;
-            width: 300px;
+            padding: 1%;
+            margin: 1%;
+            width: 20%;
             border: 1px solid #ccc;
         }
     </style>
@@ -38,7 +40,7 @@ $avatar->setHues(['red', 'orange']);
 <?php
 $greekOmega = "\xCE\xA9";
 
-foreach (['John Doe', 'J. D.', 'William D. Smith', 'Megan Fox', 'Bob', 'V', '#!', $greekOmega] as $name) {
+foreach (['John Doe', 'J. D.', 'William D. Smith', 'Megan Fox', 'Bob', 'Ü1', '#!', $greekOmega] as $name) {
     $img = $avatar->makeAvatar($name)->toBase64();
     printf('<div><h2>%s</h2><img alt="Avatar" src="%s"/></div>', $name, $img);
 }

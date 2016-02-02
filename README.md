@@ -9,9 +9,8 @@ $ composer require shiftedwork/avatarmaker
 
 ## Usage
 ```php
-$manager = new \Intervention\Image\ImageManager(['driver' => 'gd']);
-$avatar = new \Shift\AvatarMaker\AvatarMaker($manager);
-$avatar->setBackgroundLuminosity('bright');
+$avatar = AvatarFactory::createAvatarMaker('rectangle'); // choose 'rectangle' or 'circle' for avatar shape
+$avatar->setBackgroundLuminosity('bright'); 
 $avatar->setSize(64);
 $avatar->setHues(['red', 'orange']);
 
