@@ -35,7 +35,7 @@ $avatar->setFontFile('path/to/font.ttf');
 $avatar->setCharLength(3);                                      // default: 2 characters
 
 // save to file
-$avatarMaker->makeAvatar('hello.world@exampl.net')->save('path/to/user.png');
+$avatarMaker->makeAvatar('hello.world@example.net')->save('path/to/user.png');
 
 
 ```
