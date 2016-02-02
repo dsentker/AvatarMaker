@@ -8,14 +8,13 @@ class Rectangle extends AbstractShape
 {
 
     /**
-     * @param int    $size
      * @param string $backgroundColor
      *
      * @return \Intervention\Image\Image
      */
-    public function getShapedImage($size, $backgroundColor)
+    public function getShapedImage($backgroundColor)
     {
-        return $this->getImageManager()->canvas($size, $size, $backgroundColor);
+        return $this->getImageManager()->canvas($this->size, $this->size, $backgroundColor);
     }
 
 

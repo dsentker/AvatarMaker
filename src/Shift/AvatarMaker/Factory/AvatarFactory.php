@@ -3,17 +3,19 @@ namespace Shift\AvatarMaker\Factory;
 
 
 use Shift\AvatarMaker\AvatarMaker;
+use Shift\AvatarMaker\Shape\ShapeInterface;
 
 class AvatarFactory
 {
 
     /**
      * @param string $shape
+     * @param int    $size
      * @param string $driver
      *
      * @return AvatarMaker
      */
-    public static function createAvatarMaker($shape = 'circle', $driver = 'gd')
+    public static function createAvatarMaker($shape = 'circle', $size = 64, $driver = 'gd')
     {
         $shapeClass = sprintf('Shift\AvatarMaker\Shape\%s', ucfirst($shape));
         if(!class_exists($shapeClass)) {
@@ -21,10 +23,12 @@ class AvatarFactory
         }
 
         $manager = new \Intervention\Image\ImageManager(['driver' => $driver]);
-        $shape = new $shapeClass($manager);
-        $avatarMaker = new AvatarMaker($shape);
-        return $avatarMaker;
+        $shapeReflection = new \ReflectionClass($shapeClass);
 
+        /** @var ShapeInterface $shape */
+        $shape = $shapeReflection->newInstanceArgs([$manager, $size]);
+
+        return new AvatarMaker($shape);
 
     }
 

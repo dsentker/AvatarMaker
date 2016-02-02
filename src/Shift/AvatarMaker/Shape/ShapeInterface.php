@@ -12,15 +12,33 @@ interface ShapeInterface
     /**
      * ShapeInterface constructor.
      *
-     * @param ImageManager $manager
+     * @param ImageManager $manager ImageManager instance
+     * @param int          $size    Canvas size
      */
-    public function __construct(ImageManager $manager);
+    public function __construct(ImageManager $manager, $size);
 
     /**
-     * @param int    $size
      * @param string $backgroundColor
      *
      * @return Image
      */
-    public function getShapedImage($size, $backgroundColor);
+    public function getShapedImage($backgroundColor);
+
+    /**
+     * Returns shape-defined text-positions as array ([x,y])
+     *
+     * @return array
+     */
+    public function getTextPosition();
+
+    /**
+     * @return float
+     */
+    public function getTextSize();
+
+    /**
+     * @return int
+     */
+    public function getTextAngle();
+
 }

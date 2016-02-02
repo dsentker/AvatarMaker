@@ -2,6 +2,7 @@
 namespace Shift\AvatarMaker;
 
 use Colors\RandomColor;
+use Intervention\Image\AbstractFont;
 use Intervention\Image\ImageManager;
 use Shift\AvatarMaker\Shape\ShapeInterface;
 
@@ -18,9 +19,14 @@ class AvatarMaker
     protected $image = null;
 
     /**
-     * @var int
+     * @var string
      */
-    protected $size = 100;
+    protected $separator;
+
+    /**
+     * @var string
+     */
+    protected $fontFile;
 
     /**
      * @var array
@@ -51,8 +57,9 @@ class AvatarMaker
      * AvatarMaker constructor.
      *
      * @param ShapeInterface $shape
+     * @param string         $separator
      */
-    public function __construct(ShapeInterface $shape)
+    public function __construct(ShapeInterface $shape, $separator = "\s,.@")
     {
 
         if (!class_exists('Colors\RandomColor')) {
@@ -60,7 +67,33 @@ class AvatarMaker
         }
 
         $this->shape = $shape;
+        $this->separator = $separator;
     }
+
+    /**
+     * @return string
+     */
+    public function getSeparator()
+    {
+        return $this->separator;
+    }
+
+    /**
+     * @param string $separator
+     */
+    public function setSeparator($separator)
+    {
+        $this->separator = $separator;
+    }
+
+    /**
+     * @param string $fontFile
+     */
+    public function setFontFile($fontFile)
+    {
+        $this->fontFile = $fontFile;
+    }
+
 
     /**
      * @return string
@@ -84,8 +117,15 @@ class AvatarMaker
 
         $initials = '';
 
-        // thanks to http://php.net/manual/de/function.preg-split.php#92632
-        $words = preg_split("/[\s,]*\\\"([^\\\"]+)\\\"[\s,]*|" . "[\s,]*'([^']+)'[\s,]*|" . "[\s,]+/", $string, 0, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $pattern = sprintf("/[%s]+/", $this->getSeparator());
+        $chars = preg_replace("/[0-9,\",']/", "", $string);
+        if ((empty($chars)) || (1 !== preg_match('/[A-z]/', $chars))) {
+            // Whoops, we stripped to much. Let the numbers in!
+            $chars = $string;
+        }
+
+
+        $words = preg_split($pattern, mb_strtoupper($chars), -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
 
         for ($i = 0; $i < $this->charLength; $i++) {
             if (!empty($words[$i])) {
@@ -121,23 +161,25 @@ class AvatarMaker
     public function makeAvatar($name)
     {
 
-        $fontSize = $this->textSize;
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException(sprintf("Expected string, given: %s!", gettype($name)));
+        }
+
+        $fontFile = !empty($this->fontFile) ? $this->fontFile : 'arial.ttf';
         $fontColor = $this->textColor;
         $initials = $this->getInitials(mb_convert_encoding($name, "LATIN1", "UTF-8"));
-        $backgroundColor = $this->getRandomColor();
+        $image = $this->getShape()->getShapedImage($this->getRandomColor());
+        $shape = $this->getShape();
 
-        $image = $this->getShape()->getShapedImage($this->size, $backgroundColor);
+        list($textX, $textY) = $this->getShape()->getTextPosition();
 
-
-        $textX = ($this->size / 2) - ($this->size * .01); // Workaround to fix non-centered text
-
-        $image->text($initials, $textX, $this->size / 2, function (\Intervention\Image\AbstractFont $font) use ($fontSize, $fontColor) {
-            $font->file('arial.ttf'); /* @todo let the developer choose font */
-            $font->size($fontSize);
+        $image->text($initials, $textX, $textY, function (AbstractFont $font) use ($fontColor, $fontFile, $shape) {
+            $font->file($fontFile);
+            $font->size($shape->getTextSize());
             $font->color($fontColor);
             $font->align('center');
             $font->valign('middle');
-            $font->angle(0);
+            $font->angle($shape->getTextAngle());
         });
 
         $this->image = $image;
@@ -237,23 +279,6 @@ class AvatarMaker
     public function setCharLength($charLength)
     {
         $this->charLength = $charLength;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
-
-    /**
-     * @param int $size
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-        $this->textSize = $size / 2;
     }
 
     /**
