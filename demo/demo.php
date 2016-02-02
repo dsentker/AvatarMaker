@@ -27,7 +27,7 @@ require_once '../temp/test-includes.php';
             float: left;
             padding: 1%;
             margin: 1%;
-            width: 20%;
+            width: 25%;
             border: 1px solid #ddd;
         }
 

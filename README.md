@@ -2,6 +2,8 @@
 
 This class creates an GMail-like avatar image by given string (e.g. username).
 
+![Avatar demo images](http://medialeitwerk.de/files/avatarmaker.png)
+
 ## Installation
 ```sh
 $ composer require shiftedwork/avatarmaker
