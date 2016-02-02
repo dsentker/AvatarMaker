@@ -9,7 +9,8 @@ $ composer require shiftedwork/avatarmaker
 
 ## Usage
 ```php
-$avatar = AvatarFactory::createAvatarMaker('circle', 64); // choose 'circle' or 'column', 'diamond', 'random', 'rectangle' or 'rhomb' for avatar shape
+// choose 'circle' or 'column', 'diamond', 'random', 'rectangle' or 'rhomb' for avatar shape
+$avatar = AvatarFactory::createAvatarMaker('circle', 64); 
 
 $avatar->setHues(['red', 'orange']);
 

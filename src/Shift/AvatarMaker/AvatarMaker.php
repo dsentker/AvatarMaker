@@ -41,7 +41,7 @@ class AvatarMaker
     /**
      * @var string
      */
-    protected $textColor = '#f2f2f2';
+    protected $textColor = [255, 255, 255, 180];
 
     /**
      * @var int
@@ -301,7 +301,7 @@ class AvatarMaker
     }
 
     /**
-     * @param string $textColor
+     * @param string|array $textColor
      */
     public function setTextColor($textColor)
     {

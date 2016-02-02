@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(-1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
-// require_once '../temp/test-includes.php';
+require_once '../temp/test-includes.php';
 
 // If you get "Could not find/open font" errors with the "gd" driver, try
 // setting this environment variable.
