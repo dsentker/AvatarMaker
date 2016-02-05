@@ -2,10 +2,14 @@
 
 namespace Shift\AvatarMaker\Test;
 
-use LogicException;
+use Intervention\Image\Image;
 use InvalidArgumentException;
+use LogicException;
+use org\bovigo\vfs\vfsStream;
 use PHPUnit_Framework_TestCase;
+use Shift\AvatarMaker\AvatarMaker;
 use Shift\AvatarMaker\Factory\AvatarFactory;
+use Shift\AvatarMaker\Shape\ShapeInterface;
 
 class AvatarMakerTest extends PHPUnit_Framework_TestCase
 {
@@ -105,7 +109,7 @@ class AvatarMakerTest extends PHPUnit_Framework_TestCase
     public function testCanGetShape()
     {
         $am = AvatarFactory::createAvatarMaker();
-        $this->assertEquals(true, $am->getShape() instanceof \Shift\AvatarMaker\Shape\ShapeInterface);
+        $this->assertEquals(true, $am->getShape() instanceof ShapeInterface);
     }
 
     public function testCanGetImage()
@@ -117,7 +121,7 @@ class AvatarMakerTest extends PHPUnit_Framework_TestCase
         $am->setFontFile(__DIR__ . '/../demo/arial.ttf');
 
         $am->makeAvatar('Bob Smith');
-        $this->assertEquals(true, $am->getImage() instanceof \Intervention\Image\Image);
+        $this->assertEquals(true, $am->getImage() instanceof Image);
     }
 
     public function testCanExportToBase64()
@@ -159,7 +163,7 @@ class AvatarMakerTest extends PHPUnit_Framework_TestCase
 
         foreach ($shapes as $shape) {
             $am = AvatarFactory::createAvatarMaker($shape, 16);
-            $this->assertEquals(true, $am instanceof \Shift\AvatarMaker\AvatarMaker);
+            $this->assertEquals(true, $am instanceof AvatarMaker);
 
             /** @todo This line shouldn't be needed */
             $am->setFontFile(__DIR__ . '/../demo/arial.ttf');
@@ -171,5 +175,42 @@ class AvatarMakerTest extends PHPUnit_Framework_TestCase
             $this->assertEquals(16, imagesx($res));
             $this->assertEquals(16, imagesy($res));
         }
+    }
+
+    public function testCanHave100PercentCoverageForGetInitials()
+    {
+        $am = AvatarFactory::createAvatarMaker('circle', 16);
+
+        /** @todo This line shouldn't be needed */
+        $am->setFontFile(__DIR__ . '/../demo/arial.ttf');
+
+        $am->setCharLength(4);
+
+        $base64 = $am->makeAvatar('Bob')->toBase64();
+
+        $this->assertEquals('data:image/png;base64,', substr($base64, 0, 22));
+        $res = imagecreatefromstring(base64_decode(substr($base64, 22)));
+        $this->assertEquals(16, imagesx($res));
+        $this->assertEquals(16, imagesy($res));
+    }
+
+    public function testCanSaveFiles()
+    {
+        $am = AvatarFactory::createAvatarMaker('circle', 16);
+
+        /** @todo This line shouldn't be needed */
+        $am->setFontFile(__DIR__ . '/../demo/arial.ttf');
+
+        $root = vfsStream::setup('exampleDir');
+
+        $this->assertEquals(false, $root->hasChild('test.png'));
+
+        $am->makeAvatar('Bob Smith')->save(vfsStream::url('exampleDir/test.png'));
+
+        $this->assertEquals(true, $root->hasChild('test.png'));
+
+        $res = imagecreatefrompng(vfsStream::url('exampleDir/test.png'));
+        $this->assertEquals(16, imagesx($res));
+        $this->assertEquals(16, imagesy($res));
     }
 }

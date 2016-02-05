@@ -54,7 +54,7 @@ class AvatarMaker
      * @param ShapeInterface $shape
      * @param string         $separator
      */
-    public function __construct(ShapeInterface $shape, $separator = "\s,.@")
+    public function __construct(ShapeInterface $shape, $separator = " \t,.@")
     {
         $this->shape     = $shape;
         $this->separator = $separator;
@@ -104,43 +104,39 @@ class AvatarMaker
      */
     protected function getInitials($string)
     {
-
         $initials = '';
 
-        $pattern = sprintf("/[%s]+/", $this->getSeparator());
-        $chars = preg_replace("/[0-9,\",']/", "", $string);
-        if ((empty($chars)) || (1 !== preg_match('/[A-z]/', $chars))) {
-            // Whoops, we stripped to much. Let the numbers in!
-            $chars = $string;
+        $chars = $string;
+
+        if (1 === preg_match('/[A-Za-z]/', $string)) {
+            $chars = preg_replace('/[0-9\'"]/', '', $string);
         }
 
+        $pattern = sprintf('/[%s]+/u', preg_quote($this->getSeparator(), '/'));
 
-        $words = preg_split($pattern, mb_strtoupper($chars), -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+        $words = preg_split($pattern, mb_strtoupper($chars, 'UTF-8'), -1, PREG_SPLIT_NO_EMPTY);
 
         for ($i = 0; $i < $this->charLength; $i++) {
-            if (!empty($words[$i])) {
-                $initials .= substr($words[$i], 0, 1);
+            if (isset($words[$i])) {
+                $initials .= mb_substr($words[$i], 0, 1, 'UTF-8');
             }
         }
 
-        $initialsLength = strlen($initials);
+        $initialsLength = mb_strlen($initials, 'UTF-8');
 
         if ($initialsLength < $this->charLength) {
             $missingChars = $this->charLength - $initialsLength;
             $lastWord = end($words);
-            $lastWordCharacters = str_split($lastWord);
+            $lastWordCharacters = preg_split('/(?<!^)(?!$)/u', $lastWord);
             for ($i = 1; $i <= $missingChars; $i++) {
-                if (empty($lastWordCharacters[$i])) {
+                if (!isset($lastWordCharacters[$i])) {
                     break;
                 }
                 $initials .= $lastWordCharacters[$i];
             }
-
         }
 
         return $initials;
-
-
     }
 
     /**
