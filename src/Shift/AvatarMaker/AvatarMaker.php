@@ -56,12 +56,7 @@ class AvatarMaker
      */
     public function __construct(ShapeInterface $shape, $separator = "\s,.@")
     {
-
-        if (!class_exists('Colors\RandomColor')) {
-            throw new \RuntimeException('RandomColor class is required!');
-        }
-
-        $this->shape = $shape;
+        $this->shape     = $shape;
         $this->separator = $separator;
     }
 
