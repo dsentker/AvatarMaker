@@ -1,6 +1,6 @@
 .idea
-vendor
-temp
+build
 nbproject
+temp
 vendor
 composer.lock

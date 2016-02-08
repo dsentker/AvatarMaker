@@ -18,9 +18,18 @@
         "intervention/image": "~2.3",
         "mistic100/randomcolor": "~1.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "mikey179/vfsStream": "~1.6"
+    },
     "autoload": {
         "psr-4": {
             "Shift\\AvatarMaker\\": "src/Shift/AvatarMaker"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shift\\AvatarMaker\\Test\\": "test"
         }
     }
 }

@@ -12,22 +12,21 @@ $ composer require shiftedwork/avatarmaker
 ## Usage
 ```php
 // choose 'circle' or 'column', 'diamond', 'random', 'rectangle' or 'rhomb' for avatar shape
-$avatar = AvatarFactory::createAvatarMaker('circle', 64); 
+$avatar = AvatarFactory::createAvatarMaker('circle', 64);
 
 $avatar->setHues(['red', 'orange']);
 
 // direct output
 printf('<img alt="Avatar" src="%s"/>', $avatar->makeAvatar('John Doe')->toBase64());
-
 ```
 
 ## Advanced Usage
 ```php
 
 $size = 128;
-$manager = new ImageManager(['driver' => 'imagick']);           
+$manager = new ImageManager(['driver' => 'imagick']);
 $shape = new Shift\AvatarMaker\Shape\Rhomb($manager, $size);    // create shape and define avatar size
-$avatar = new AvatarMaker($shape);                              
+$avatar = new AvatarMaker($shape);
 $avatar->setBackgroundLuminosity('bright');                     // choose 'bright', 'light' or 'dark'
 $avatar->setHues(['red', 'orange', 'yellow']);                  // set one or more hues
 $avatar->setSeparator('@');                                     // define separator character(s) for name splitting
@@ -36,6 +35,9 @@ $avatar->setCharLength(3);                                      // default: 2 ch
 
 // save to file
 $avatarMaker->makeAvatar('hello.world@example.net')->save('path/to/user.png');
+```
 
-
+## Testing
+```sh
+$ phpunit
 ```
